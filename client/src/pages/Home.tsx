@@ -19,7 +19,8 @@ import {
   X,
   Menu,
   CheckCircle2,
-  ExternalLink
+  ExternalLink,
+  MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,7 +41,6 @@ const GALLERY_IMAGES = [
 export default function Home() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [selectedProperty, setSelectedImage] = useState<string | null>(null);
   
   // Rotação dinâmica de imagens em destaque
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function Home() {
       
       const translateDiv = document.createElement("div");
       translateDiv.id = "google_translate_element";
-      translateDiv.className = "fixed bottom-4 right-4 z-50 bg-white/90 backdrop-blur-md p-2 rounded-lg shadow-lg border border-primary/20";
+      translateDiv.className = "fixed bottom-24 right-4 z-50 bg-white/90 backdrop-blur-md p-2 rounded-lg shadow-lg border border-primary/20";
       document.body.appendChild(translateDiv);
 
       const script = document.createElement("script");
@@ -100,7 +100,6 @@ export default function Home() {
   };
 
   const openPropertyWindow = (imgSrc: string) => {
-    // Abre a imagem ou detalhe numa nova janela/separador com link partilhável
     const newWindow = window.open("", "_blank");
     if (newWindow) {
       newWindow.document.write(`
@@ -130,7 +129,7 @@ export default function Home() {
                 </p>
                 
                 <div class="pt-6 border-t border-slate-100 flex justify-between items-center">
-                  <span class="text-sm text-slate-500">Cartes Hills © 2026</span>
+                  <span class="text-sm text-slate-500">DPS Imobiliária © 2026 | Licença AMI 26301</span>
                   <button onclick="window.close()" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200">
                     Fechar Janela
                   </button>
@@ -142,6 +141,10 @@ export default function Home() {
       `);
       newWindow.document.close();
     }
+  };
+
+  const handleWhatsAppClick = () => {
+    window.open("https://wa.me/351925708456?text=Ol%C3%A1%2C+gostaria+de+obter+mais+informa%C3%A7%C3%B5es+sobre+o+empreendimento+Cartes+Hills.", "_blank");
   };
 
   return (
@@ -165,7 +168,7 @@ export default function Home() {
             <a href="#lifestyle" className="text-sm font-medium hover:text-primary transition-colors">Estilo de Vida</a>
             <a href="#amenities" className="text-sm font-medium hover:text-primary transition-colors">Amenities</a>
             <a href="#projeto" className="text-sm font-medium hover:text-primary transition-colors">Projeto</a>
-            <a href="#alfa" className="text-sm font-medium hover:text-primary transition-colors">Alfa Investments</a>
+            <a href="#dps-imobiliaria" className="text-sm font-medium hover:text-primary transition-colors">DPS Imobiliária</a>
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
@@ -176,8 +179,8 @@ export default function Home() {
             >
               <Share2 className="mr-2 h-4 w-4" /> Partilhar
             </Button>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md">
-              Contactar
+            <Button onClick={handleWhatsAppClick} className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md">
+              Contactar Já
             </Button>
           </div>
 
@@ -199,7 +202,7 @@ export default function Home() {
               <a href="#lifestyle" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium hover:text-primary">Estilo de Vida</a>
               <a href="#amenities" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium hover:text-primary">Amenities</a>
               <a href="#projeto" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium hover:text-primary">Projeto</a>
-              <a href="#alfa" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium hover:text-primary">Alfa Investments</a>
+              <a href="#dps-imobiliaria" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium hover:text-primary">DPS Imobiliária</a>
             </nav>
             <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
               <Button 
@@ -209,8 +212,8 @@ export default function Home() {
               >
                 <Share2 className="mr-2 h-4 w-4" /> Partilhar
               </Button>
-              <Button className="w-full bg-primary text-primary-foreground">
-                Contactar
+              <Button onClick={() => { handleWhatsAppClick(); setIsMobileMenuOpen(false); }} className="w-full bg-primary text-primary-foreground">
+                Contactar Já
               </Button>
             </div>
           </div>
@@ -305,6 +308,20 @@ export default function Home() {
         </button>
       </div>
 
+      {/* WHATSAPP FLOATING BUTTON (WITH HORIZONTAL SCROLL ANIMATION HINT) */}
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+        <div className="hidden md:flex bg-white/90 backdrop-blur-md border border-primary/20 px-4 py-2 rounded-full shadow-lg text-xs font-semibold text-slate-800 animate-bounce">
+          Contacte já por WhatsApp! 👉
+        </div>
+        <button 
+          onClick={handleWhatsAppClick}
+          className="h-14 w-14 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-2xl transition-transform duration-300 hover:scale-110 active:scale-95"
+          title="Contacte já por WhatsApp"
+        >
+          <MessageSquare className="h-7 w-7" />
+        </button>
+      </div>
+
       {/* SECTION 1: ARQUITETURA */}
       <section id="arquitetura" className="py-24 bg-white relative">
         <div className="container">
@@ -320,7 +337,7 @@ export default function Home() {
                 O Cartes Hills apresenta apartamentos T0, T1 e T2 com lugares de estacionamento privados e algumas unidades com espaços dedicados a escritório. O design curvo e em altura destaca-se pela sua identidade única, maximizando a luz natural, as vistas abertas a nascente e a privacidade.
               </p>
               <p className="text-slate-600 leading-relaxed text-lg font-light">
-                Varandas amplas, linhas elegantes e acabamentos de elevada qualidade criam um ambiente sofisticado e exclusivo, resultando num ativo residencial premium no centro do Porto.
+                Varandas amplas, lines elegantes e acabamentos de elevada qualidade criam um ambiente sofisticado e exclusivo, resultando num ativo residencial premium no centro do Porto.
               </p>
               <div className="pt-4">
                 <Button 
@@ -566,49 +583,72 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 6: ALFA INVESTMENTS */}
-      <section id="alfa" className="py-24 bg-gradient-to-b from-white to-background relative">
+      {/* SECTION 6: DPS IMOBILIÁRIA (SUBSTITUINDO ALFA INVESTMENTS) */}
+      <section id="dps-imobiliaria" className="py-24 bg-gradient-to-b from-white to-background relative">
         <div className="container">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 space-y-6">
-              <div className="text-primary font-serif italic text-lg font-semibold">06 / ALFA INVESTMENTS</div>
+            <div className="lg:col-span-6 space-y-6">
+              <div className="text-primary font-serif italic text-lg font-semibold">06 / DPS IMOBILIÁRIA</div>
               <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-                Shaping Porto, <br />
-                <span className="font-serif italic text-primary">Desenvolvimento de Excelência</span>
+                DPS Imobiliária, <br />
+                <span className="font-serif italic text-primary">Mediação de Excelência</span>
               </h2>
               <div className="h-1 w-20 bg-primary rounded" />
               <p className="text-slate-600 leading-relaxed text-lg font-light">
-                A Alfa Investments é uma referência no desenvolvimento imobiliário premium, reconhecida pela criação de projetos distintos e de elevada procura.
+                A **DPS Imobiliária** (Licença AMI 26301) é a sua parceira de confiança no mercado imobiliário premium do Grande Porto. Destacamo-nos pela excelência na mediação e comercialização de empreendimentos sofisticados como o Cartes Hills.
               </p>
               <p className="text-slate-600 leading-relaxed text-lg font-light">
-                Com um forte historial no mercado do Porto, destacamo-nos pela entrega consistente de projetos, cumprimento de prazos e elevados padrões de qualidade. Desenvolvemos ativos residenciais de alta qualidade, combinando arquitetura, localização e valor de investimento.
+                Oferecemos um serviço personalizado, focado no cliente e orientado para encontrar as melhores oportunidades de investimento e habitação com total segurança e profissionalismo.
               </p>
             </div>
 
-            <div className="lg:col-span-7 grid grid-cols-2 gap-6">
-              {[
-                { number: "9", label: "Projetos Desenvolvidos" },
-                { number: "+730", label: "Apartamentos" },
-                { number: "+50.000 m²", label: "Área Construída" },
-                { number: "+170M €", label: "Valor Global de Projetos" }
-              ].map((stat, idx) => (
-                <div key={idx} className="bg-white p-8 rounded-2xl border border-primary/10 shadow-sm text-center space-y-2">
-                  <div className="text-4xl font-serif font-bold text-primary">{stat.number}</div>
-                  <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">{stat.label}</div>
+            <div className="lg:col-span-6 bg-white p-10 rounded-3xl border border-primary/15 shadow-xl space-y-6">
+              <h3 className="text-2xl font-bold text-slate-900 font-serif">Contacte-nos Diretamente</h3>
+              <div className="h-0.5 w-12 bg-primary rounded" />
+              
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                    <Phone className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-slate-400 font-medium uppercase">Telefone / WhatsApp</div>
+                    <div className="text-lg font-semibold text-slate-800">+351 925 708 456</div>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Previous Projects */}
-          <div className="mt-20 pt-12 border-t border-primary/10">
-            <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Projetos Anteriores de Sucesso</h3>
-            <div className="flex flex-wrap justify-center gap-4">
-              {["Raízes", "Golden Coast", "Golden Parque", "Flores", "Cedofeita Prestige", "Braandcamp", "Bom Jardim"].map((proj, idx) => (
-                <span key={idx} className="px-6 py-3 rounded-full bg-white border border-primary/10 text-slate-700 text-sm font-medium shadow-sm hover:border-primary/30 transition-colors">
-                  {proj}
-                </span>
-              ))}
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                    <Building2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-slate-400 font-medium uppercase">Licença Oficial</div>
+                    <div className="text-lg font-semibold text-slate-800">AMI 26301</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-slate-400 font-medium uppercase">Morada Sede</div>
+                    <div className="text-sm text-slate-600 leading-relaxed">
+                      Rua Manuel Francisco de Araújo 684<br />
+                      4425-120 Águas Santas, Maia
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <Button 
+                  onClick={handleWhatsAppClick} 
+                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-6 text-base rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
+                >
+                  <MessageSquare className="mr-2 h-5 w-5" /> Contactar já por WhatsApp
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -622,7 +662,7 @@ export default function Home() {
               CARTES HILLS
             </span>
             <p className="text-sm font-light leading-relaxed">
-              Empreendimento residencial premium no centro do Porto. Luxo, exclusividade e modernidade combinados em harmonia com a natureza.
+              Empreendimento residencial premium no centro do Porto. Luxo, exclusividade e modernidade comercializados pela DPS Imobiliária.
             </p>
             <div className="flex gap-4 pt-2">
               <button onClick={() => handleShare("facebook")} className="hover:text-primary transition-colors">
@@ -651,34 +691,31 @@ export default function Home() {
               Este documento é meramente informativo e não constitui proposta contratual. Todas as informações, imagens e descrições são indicativas e sujeitas a alteração.
             </p>
             <p className="text-xs font-light mt-2">
-              Comunicação gráfica e visuais 3D por Make It visually.
+              DPS Imobiliária - Licença AMI 26301.
             </p>
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-white font-bold">Contactos</h4>
+            <h4 className="text-white font-bold">Contactos Oficiais</h4>
             <div className="space-y-2 text-sm font-light">
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
-                <span>+351 917 314 490</span>
+                <span>+351 925 708 456</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-primary" />
-                <span>Info@Alfa-invs.com</span>
+                <Building2 className="h-4 w-4 text-primary" />
+                <span>Licença AMI 26301</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4 text-primary" />
-                <span>www.alfa-invs.com</span>
-              </div>
-              <p className="text-xs pt-2">
-                R. Dr. Afonso Cordeiro 877, sala 204, 4450-007 Matosinhos
+              <p className="text-xs pt-2 leading-relaxed">
+                Rua Manuel Francisco de Araújo 684<br />
+                4425-120 Águas Santas, Maia
               </p>
             </div>
           </div>
         </div>
 
         <div className="container mt-12 pt-8 border-t border-slate-800 text-center text-xs">
-          <p>Cartes Hills © 2026. Todos os direitos reservados.</p>
+          <p>Cartes Hills © 2026 | Comercializado por DPS Imobiliária. Todos os direitos reservados.</p>
         </div>
       </footer>
     </div>
